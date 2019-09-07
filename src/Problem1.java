@@ -1,14 +1,13 @@
 import java.util.*;
 
 public class Problem1 {
-
-    private static double taxRates = .13;
+    private static final double TAX_RATES = 0.13;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         var price = sc.nextInt();
-        var includeTax = (int) (price * (1 + taxRates));
+        var includeTax = (int) (price * (1 + TAX_RATES));
 
         System.out.println(includeTax);
 

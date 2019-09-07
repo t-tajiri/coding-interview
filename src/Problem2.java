@@ -1,14 +1,14 @@
 import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 public class Problem2 {
     public static List<String> getListDiff(List<String> a, List<String> b) {
-        var result = new ArrayList<String>();
-
-        a.parallelStream().forEach(word -> {
-            if(!b.contains(word)) result.add(word);
-        });
-
-        return result;
+        // @formatter:off
+        return  a.parallelStream()
+                 .filter(Predicate.not(b::contains))
+                 .collect(Collectors.toList());
+        // @formatter:on
     }
 
     public static void main(String[] args) {
