@@ -19,10 +19,10 @@ public class Problem3 {
         }
     }
 
-    private static void countWordPerLine(Map<String, Integer> map, String line) {
+    private static void countWordPerLine(Map<String, Integer> counterMap, String line) {
         var words = line.split("[\\W]+");
         for (var word: words) {
-            map.compute(word, (k, count) -> count == null ? 1 : count + 1);
+            counterMap.compute(word, (k, count) -> count == null ? 1 : count + 1);
         }
     }
 
