@@ -8,7 +8,7 @@ public class Problem5 {
         var discounts = new ArrayList<Discount>();
 
         try (var in = new BufferedReader(new InputStreamReader(System.in))) {
-            ids = convertIntArrayFrom(in.readLine().split(" "));
+            ids = convertIntArrayFrom(in.readLine());
 
             while (true) {
                 var line = in.readLine();
@@ -16,7 +16,7 @@ public class Problem5 {
                     break;
                 }
 
-                int[] target = convertIntArrayFrom(line.split(" "));
+                int[] target = convertIntArrayFrom(line);
                 var discount = constructElementOf(target);
                 discounts.add(discount);
             }
@@ -32,7 +32,8 @@ public class Problem5 {
         System.out.println(discountPrice);
     }
 
-    private static int[] convertIntArrayFrom(String[] array) {
+    private static int[] convertIntArrayFrom(String line) {
+        String[] array = line.split(" ");
         // @formatter:off
         return Arrays.stream(array)
                  .mapToInt(Integer::parseInt)
@@ -54,7 +55,7 @@ public class Problem5 {
     }
 
     private static List<Discount> deriveCandidateFrom(List<Discount> discounts, int[] ids) {
-        for (var id: ids) {
+        for (var id : ids) {
             // @formatter:off
             discounts.stream()
                 .filter(discount -> discount.getTarget().containsKey(id))
@@ -69,22 +70,18 @@ public class Problem5 {
         // @formatter:on
     }
 
-    private static boolean shouldRemovePastCandidate(Discount past, Discount present) {
-        return past != null && past.getPrice() < present.getPrice();
-    }
-
     private static List<Discount> determineDiscountListBy(List<Discount> candidates, int[] ids) {
         List<Discount> results = new ArrayList<>(candidates);
 
-        for (var id: ids) {
+        for (var id : ids) {
             Discount discount = null;
-            for (var result: results) {
+            for (var result : results) {
                 Map<Integer, Boolean> m = result.getTarget();
                 if (!m.containsKey(id)) {
                     continue;
                 }
 
-                //TODO removeIfを使う
+                //FIXME may cause java.util.ConcurrentModificationException
                 if (shouldRemovePastCandidate(discount, result)) {
                     candidates.remove(discount);
                 }
@@ -94,6 +91,10 @@ public class Problem5 {
         }
 
         return results;
+    }
+
+    private static boolean shouldRemovePastCandidate(Discount past, Discount present) {
+        return past != null && past.getPrice() < present.getPrice();
     }
 
     private static int sumOf(List<Discount> discounts) {

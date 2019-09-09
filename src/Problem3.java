@@ -21,7 +21,7 @@ public class Problem3 {
 
     private static void countWordPerLine(Map<String, Integer> counterMap, String line) {
         var words = line.split("[\\W]+");
-        for (var word: words) {
+        for (var word : words) {
             counterMap.compute(word, (k, count) -> count == null ? 1 : count + 1);
         }
     }
