@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.*;
 
 public class Problem5 {
@@ -71,19 +72,18 @@ public class Problem5 {
     }
 
     private static List<Discount> determineDiscountListBy(List<Discount> candidates, int[] ids) {
-        List<Discount> results = new ArrayList<>(candidates);
+        var results = new CopyOnWriteArrayList<>(candidates);
 
         for (var id : ids) {
             Discount discount = null;
-            for (var result : results) {
+            for (var result: results) {
                 Map<Integer, Boolean> m = result.getTarget();
                 if (!m.containsKey(id)) {
                     continue;
                 }
 
-                //FIXME may cause java.util.ConcurrentModificationException
                 if (shouldRemovePastCandidate(discount, result)) {
-                    candidates.remove(discount);
+                    results.remove(discount);
                 }
 
                 discount = result;
