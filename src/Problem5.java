@@ -26,8 +26,8 @@ public class Problem5 {
             e.printStackTrace();
         }
 
-        List<Discount> candidates = deriveCandidateFrom(discounts, ids);
-        List<Discount> results = determineDiscountListBy(candidates, ids);
+        List<Discount> candidates = deriveCandidatesFrom(discounts, ids);
+        List<Discount> results = determineDiscountsBy(candidates, ids);
 
         var discountPrice = sumOf(results);
 
@@ -56,7 +56,7 @@ public class Problem5 {
         return discount;
     }
 
-    private static List<Discount> deriveCandidateFrom(List<Discount> discounts, int[] ids) {
+    private static List<Discount> deriveCandidatesFrom(List<Discount> discounts, int[] ids) {
         var candidates = new CopyOnWriteArrayList<>(discounts);
 
         for (var id : ids) {
@@ -74,7 +74,7 @@ public class Problem5 {
         // @formatter:on
     }
 
-    private static List<Discount> determineDiscountListBy(List<Discount> candidates, int[] ids) {
+    private static List<Discount> determineDiscountsBy(List<Discount> candidates, int[] ids) {
         var results = new CopyOnWriteArrayList<>(candidates);
 
         for (var id : ids) {
