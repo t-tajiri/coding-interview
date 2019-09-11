@@ -12,6 +12,7 @@ public class Problem5 {
             ids = convertIntArrayFrom(in.readLine());
 
             while (true) {
+                // 入力が終了したか判断するため、空白行で入力終了とする
                 var line = in.readLine();
                 if (line.isEmpty()) {
                     break;
@@ -56,16 +57,18 @@ public class Problem5 {
     }
 
     private static List<Discount> deriveCandidateFrom(List<Discount> discounts, int[] ids) {
+        var candidates = new CopyOnWriteArrayList<>(discounts);
+
         for (var id : ids) {
             // @formatter:off
-            discounts.stream()
+            candidates.stream()
                 .filter(discount -> discount.getTarget().containsKey(id))
                 .forEach(discount -> discount.getTarget().put(id, true));
             // @formatter:on
         }
 
         // @formatter:off
-        return discounts.stream()
+        return candidates.stream()
                     .filter(Discount::isCandidate)
                     .collect(Collectors.toList());
         // @formatter:on
